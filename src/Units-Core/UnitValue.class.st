@@ -130,13 +130,13 @@ UnitValue >> as: anotherUnit [
 { #category : #converting }
 UnitValue >> baseUnits [
 	"Answer the receiver reduced to base units only."
-	^self convertTo: unit baseUnits
+	^self convertTo: self unit baseUnits
 ]
 
 { #category : #rounding }
 UnitValue >> ceiling [
 	^self class
-		unit: unit
+		unit: self unit
 		value: value ceiling
 ]
 
@@ -149,7 +149,7 @@ UnitValue >> coerce: number [
 
 { #category : #consistency }
 UnitValue >> consistentWith: anotherUnit [
-	^unit consistentWith: anotherUnit unitPart
+	^self unit consistentWith: anotherUnit unitPart
 ]
 
 { #category : #converting }
@@ -158,7 +158,7 @@ UnitValue >> convertTo: anotherUnit [
 	 scaling factors.  Gives an error if the receiver is not consistent with 'anotherUnit'."
 	| u |
 	u := self class unitFor: anotherUnit.
-	^(u consistentWith: unit)
+	^(u consistentWith: self unit)
 		ifTrue: [u uncheckedConvertFrom: self]
 		ifFalse: [self inconsistentUnits: u selector: #convertTo:]
 ]
@@ -178,7 +178,7 @@ UnitValue >> cssString [
 UnitValue >> divideIntoUnit: unitValue [
 	"Let the VM check for division by zero."
 	^(self class
-		unit: (unitValue unit dividedBy: unit)
+		unit: (unitValue unit dividedBy: self unit)
 		value: unitValue value / value) 
 			reduced
 ]
@@ -199,14 +199,14 @@ UnitValue >> equalFromUnit: unitValue [
 UnitValue >> factor: unitValue [
 	"Factor with respect to another Unit or UnitValue."
 	| newUnit |
-	newUnit := unit factor: (self class unitFor: unitValue).
+	newUnit := self unit factor: (self class unitFor: unitValue).
 	^self convertTo: newUnit
 ]
 
 { #category : #rounding }
 UnitValue >> floor [
 	^self class
-		unit: unit
+		unit: self unit
 		value: value floor
 ]
 
@@ -232,7 +232,7 @@ UnitValue >> inconsistentUnits: argument selector: selector [
 
 { #category : #testing }
 UnitValue >> isZero [
-	^unit isZeroAsValue: value
+	^self unit isZeroAsValue: value
 ]
 
 { #category : #'double dispatching' }
@@ -249,14 +249,14 @@ UnitValue >> lessFromUnit: unitValue [
 { #category : #'double dispatching' }
 UnitValue >> multiplyByUnit: unitValue [
 	^(self class
-		unit: (unit multipliedBy: unitValue unit)
+		unit: (self unit multipliedBy: unitValue unit)
 		value: unitValue value * value) reduced
 ]
 
 { #category : #arithmetic }
 UnitValue >> negated [
 	^self class
-		unit: unit
+		unit: self unit
 		value: value negated
 ]
 
@@ -271,7 +271,7 @@ UnitValue >> printAbbreviatedOn: stream [
 	
 	value printOn: stream.
 	stream space.
-	unit printAbbreviationOn: stream
+	self unit printAbbreviationOn: stream
 ]
 
 { #category : #printing }
@@ -279,8 +279,8 @@ UnitValue >> printOn: stream [
 	value printOn: stream.
 	stream space.
 	Unit printAbbreviated
-		ifTrue: [unit printAbbreviationOn: stream]
-		ifFalse: [unit 
+		ifTrue: [self unit printAbbreviationOn: stream]
+		ifFalse: [self unit 
 					printFullNameOn: stream
 					pluralized: value ~= 1]
 ]
@@ -298,7 +298,7 @@ UnitValue >> printStringAbbreviated [
 { #category : #mathematical }
 UnitValue >> raisedTo: exponent [
 	^self class
-		unit: (unit raisedTo: exponent)
+		unit: (self unit raisedTo: exponent)
 		value: (value raisedTo: exponent)
 ]
 
@@ -308,7 +308,7 @@ UnitValue >> reduced [
 	 answer the remaining scalar part of the receiver.  Otherwise, answer the receiver
 	 unchanged."
 
-	^ unit isNull
+	^ self unit isNull
 		ifTrue: [ value ]
 		ifFalse: [ 
 			(unit isComplexUnit and: [unit calculateBaseUnits isNull])
@@ -319,21 +319,21 @@ UnitValue >> reduced [
 { #category : #rounding }
 UnitValue >> roundTo: number [
 	^self class
-		unit: unit
+		unit: self unit
 		value: (value roundTo: number)
 ]
 
 { #category : #rounding }
 UnitValue >> roundUpTo: number [
 	^self class
-		unit: unit
+		unit: self unit
 		value: (value roundUpTo: number)
 ]
 
 { #category : #rounding }
 UnitValue >> rounded [
 	^self class
-		unit: unit
+		unit: self unit
 		value: value rounded
 ]
 
@@ -357,7 +357,7 @@ UnitValue >> sign [
 { #category : #mathematical }
 UnitValue >> sqrt [
 	^self class
-		unit: (unit raisedTo: 1/2)
+		unit: (self unit raisedTo: 1/2)
 		value: value sqrt
 ]
 
@@ -392,14 +392,14 @@ UnitValue >> subtractFromUnit: unitValue [
 { #category : #rounding }
 UnitValue >> truncateTo: number [
 	^self class
-		unit: unit
+		unit: self unit
 		value: (value truncateTo: number)
 ]
 
 { #category : #rounding }
 UnitValue >> truncated [
 	^self class
-		unit: unit
+		unit: self unit
 		value: value truncated
 ]
 
@@ -422,7 +422,7 @@ UnitValue >> unit: myUnit value: myValue [
 { #category : #private }
 UnitValue >> unitPart [
 	"Answer the unit part of the receiver."
-	^unit
+	^self unit
 ]
 
 { #category : #accessing }
