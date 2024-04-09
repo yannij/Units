@@ -137,7 +137,7 @@ UnitValue >> baseUnits [
 UnitValue >> ceiling [
 	^self class
 		unit: self unit
-		value: value ceiling
+		value: self value ceiling
 ]
 
 { #category : #coercing }
@@ -179,7 +179,7 @@ UnitValue >> divideIntoUnit: unitValue [
 	"Let the VM check for division by zero."
 	^(self class
 		unit: (unitValue unit dividedBy: self unit)
-		value: unitValue value / value) 
+		value: unitValue value / self value) 
 			reduced
 ]
 
@@ -207,7 +207,7 @@ UnitValue >> factor: unitValue [
 UnitValue >> floor [
 	^self class
 		unit: self unit
-		value: value floor
+		value: self value floor
 ]
 
 { #category : #coercing }
@@ -232,7 +232,7 @@ UnitValue >> inconsistentUnits: argument selector: selector [
 
 { #category : #testing }
 UnitValue >> isZero [
-	^self unit isZeroAsValue: value
+	^self unit isZeroAsValue: self value
 ]
 
 { #category : #'double dispatching' }
@@ -250,39 +250,39 @@ UnitValue >> lessFromUnit: unitValue [
 UnitValue >> multiplyByUnit: unitValue [
 	^(self class
 		unit: (self unit multipliedBy: unitValue unit)
-		value: unitValue value * value) reduced
+		value: unitValue value * self value) reduced
 ]
 
 { #category : #arithmetic }
 UnitValue >> negated [
 	^self class
 		unit: self unit
-		value: value negated
+		value: self value negated
 ]
 
 { #category : #testing }
 UnitValue >> negative [
-	^value negative
+	^self value negative
 ]
 
 { #category : #printing }
 UnitValue >> printAbbreviatedOn: stream [
 	"Print the receiver in abbreviated form."
 	
-	value printOn: stream.
+	self value printOn: stream.
 	stream space.
 	self unit printAbbreviationOn: stream
 ]
 
 { #category : #printing }
 UnitValue >> printOn: stream [
-	value printOn: stream.
+	self value printOn: stream.
 	stream space.
 	Unit printAbbreviated
 		ifTrue: [self unit printAbbreviationOn: stream]
 		ifFalse: [self unit 
 					printFullNameOn: stream
-					pluralized: value ~= 1]
+					pluralized: self value ~= 1]
 ]
 
 { #category : #printing }
@@ -299,7 +299,7 @@ UnitValue >> printStringAbbreviated [
 UnitValue >> raisedTo: exponent [
 	^self class
 		unit: (self unit raisedTo: exponent)
-		value: (value raisedTo: exponent)
+		value: (self value raisedTo: exponent)
 ]
 
 { #category : #converting }
@@ -309,10 +309,10 @@ UnitValue >> reduced [
 	 unchanged."
 
 	^ self unit isNull
-		ifTrue: [ value ]
+		ifTrue: [ self value ]
 		ifFalse: [ 
-			(unit isComplexUnit and: [unit calculateBaseUnits isNull])
-				ifTrue: [ value * unit conversionFactor ]
+			(self unit isComplexUnit and: [self unit calculateBaseUnits isNull])
+				ifTrue: [ self value * self unit conversionFactor ]
 				ifFalse: [ self ] ]
 ]
 
@@ -320,21 +320,21 @@ UnitValue >> reduced [
 UnitValue >> roundTo: number [
 	^self class
 		unit: self unit
-		value: (value roundTo: number)
+		value: (self value roundTo: number)
 ]
 
 { #category : #rounding }
 UnitValue >> roundUpTo: number [
 	^self class
 		unit: self unit
-		value: (value roundUpTo: number)
+		value: (self value roundUpTo: number)
 ]
 
 { #category : #rounding }
 UnitValue >> rounded [
 	^self class
 		unit: self unit
-		value: value rounded
+		value: self value rounded
 ]
 
 { #category : #private }
@@ -351,14 +351,14 @@ UnitValue >> setValue: newValue [
 
 { #category : #testing }
 UnitValue >> sign [
-	^value sign
+	^self value sign
 ]
 
 { #category : #mathematical }
 UnitValue >> sqrt [
 	^self class
 		unit: (self unit raisedTo: 1/2)
-		value: value sqrt
+		value: self value sqrt
 ]
 
 { #category : #accessing }
@@ -393,14 +393,14 @@ UnitValue >> subtractFromUnit: unitValue [
 UnitValue >> truncateTo: number [
 	^self class
 		unit: self unit
-		value: (value truncateTo: number)
+		value: (self value truncateTo: number)
 ]
 
 { #category : #rounding }
 UnitValue >> truncated [
 	^self class
 		unit: self unit
-		value: value truncated
+		value: self value truncated
 ]
 
 { #category : #private }
